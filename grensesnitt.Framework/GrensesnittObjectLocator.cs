@@ -22,12 +22,14 @@ namespace grensesnitt.Framework
 		}
 		
 		public static Func<object> GetHandler(Type T) {
-			Func<object> handler;
-			if(handleAll != null) return () => {return handleAll(T); };
-			if(map.TryGetValue(T, out handler)) {
-				return (Func<object>) handler;
-			}
-			return () => { return TryReflections(T);} ;
+			return () => { 
+				Func<object> handler;
+				if(handleAll != null) return handleAll(T); 
+				if(map.TryGetValue(T, out handler)) {
+					return handler;
+				}
+				return TryReflections(T);
+			} ;
 		}		
 		
 		public static object TryReflections(Type t) {
